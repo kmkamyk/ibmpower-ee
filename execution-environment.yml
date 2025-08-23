@@ -35,7 +35,7 @@ dependencies:
 
   system: |
     git-core [platform:rpm]
-    python3.13-devel [platform:rpm compile]
+    python3.11-devel [platform:rpm compile]
     gcc [platform:rpm compile]
     gcc-c++ [platform:rpm compile]
     make [platform:rpm compile]
@@ -50,6 +50,7 @@ dependencies:
     rsync [platform:rpm]
     unzip [platform:rpm]
     git-lfs [platform:rpm]
+    epel-release [platform:rpm]
 
   python: |
     ncclient
