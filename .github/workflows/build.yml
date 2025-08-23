@@ -48,7 +48,7 @@ jobs:
           docker buildx create --use --name ibmpower-ee-builder
           docker buildx build \
             --push \
-            --platform=linux/amd64,linux/arm64 \
+            --platform=linux/amd64 \
             --tag ghcr.io/kmkamyk/ibmpower-ee:latest \
             --tag ghcr.io/kmkamyk/ibmpower-ee:$COMMIT_SHA \
             --file ./context/Containerfile \
