@@ -32,27 +32,27 @@ dependencies:
 
       # Insights (opcjonalne raportowanie i integracja z Red Hat)
       - name: redhatinsights.insights
-
   system: |
     git-core [platform:rpm]
     python3.11-devel [platform:rpm compile]
-    gcc [platform:rpm compile]
-    gcc-c++ [platform:rpm compile]
-    make [platform:rpm compile]
-    cmake [platform:rpm compile]
-    openssl-devel [platform:rpm compile]
     libcurl-devel [platform:rpm compile]
     krb5-devel [platform:rpm compile]
     krb5-workstation [platform:rpm]
-    unixODBC [platform:rpm]
-    unixODBC-devel [platform:rpm compile]
+    subversion [platform:rpm]
+    subversion [platform:dpkg]
+    git-lfs [platform:rpm]
     sshpass [platform:rpm]
     rsync [platform:rpm]
-    unzip [platform:rpm]
-    git-lfs [platform:rpm]
     epel-release [platform:rpm]
-
+    unzip [platform:rpm]
+    podman-remote [platform:rpm]
+    cmake [platform:rpm compile]
+    gcc [platform:rpm compile]
+    gcc-c++ [platform:rpm compile]
+    make [platform:rpm compile]
+    openssl-devel [platform:rpm compile]
   python: |
+    git+https://github.com/ansible/ansible-sign
     ncclient
     paramiko
     pykerberos
@@ -64,11 +64,13 @@ dependencies:
     python-daemon
     pyyaml
     six
-
+    receptorctl
 additional_build_steps:
   append_base:
-    - RUN $PYCMD -m pip install -U pip setuptools wheel
+    - RUN $PYCMD -m pip install -U pip
   append_final:
-    - RUN alternatives --install /usr/bin/python python /usr/bin/python3.11 311
+    - COPY --from=quay.io/ansible/receptor:devel /usr/bin/receptor /usr/bin/receptor
+    - RUN mkdir -p /var/run/receptor
     - RUN git lfs install --system
-    - RUN mkdir -p /opt/ansible/tmp
+    # SymLink `python` -> `python3.11`
+    - RUN alternatives --install /usr/bin/python python /usr/bin/python3.11 311
