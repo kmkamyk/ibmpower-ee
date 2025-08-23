@@ -1,12 +1,18 @@
-name: Build EE Image
+name: Build and Publish EE
 
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -19,15 +25,15 @@ jobs:
       - name: Install ansible-builder
         run: pip install ansible-builder docker
 
-      - name: Build EE
-        run: ansible-builder build -t ghcr.io/${{ github.repository }}:latest -f execution-environment.yml
+      - name: Build EE image
+        run: ansible-builder build -t ghcr.io/kmkamyk/ibmpower-ee:latest -f execution-environment.yml
 
-      - name: Login to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push EE Image
-        run: docker push ghcr.io/${{ github.repository }}:latest
+      - name: Push EE image
+        run: docker push ghcr.io/kmkamyk/ibmpower-ee:latest
