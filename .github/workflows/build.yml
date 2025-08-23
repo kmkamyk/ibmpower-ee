@@ -27,6 +27,9 @@ jobs:
 
       - name: Build EE image
         run: ansible-builder build -t ghcr.io/kmkamyk/ibmpower-ee:latest -f execution-environment.yml
+      
+      - name: Retag for GHCR
+        run: docker tag ee-ibmpower:latest ghcr.io/kmkamyk/ibmpower-ee:latest
 
       - name: Verify local images
         run: docker images
@@ -39,4 +42,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push EE image
+
+
         run: docker push ghcr.io/kmkamyk/ibmpower-ee:latest
