@@ -34,18 +34,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         
-        - name: Create context with Dockerfile
-          run: ansible-builder create -f execution-environment.yml
-        
-        - name: Check context
-          run: ls -R context
-        
-        - name: Build and push EE image
-          run: |
-            docker buildx create --use --name ibmpower-ee-builder
-            docker buildx build \
-              --push \
-              --platform=linux/amd64,linux/arm64 \
-              --tag ghcr.io/kmkamyk/ibmpower-ee:latest \
-              --tag ghcr.io/kmkamyk/ibmpower-ee:${COMMIT_SHA} \
-              ./context
+      - name: Create context with Dockerfile
+        run: ansible-builder create -f execution-environment.yml
+      
+      - name: Check context
+        run: ls -R context
+      
+      - name: Build and push EE image
+        run: |
+          docker buildx create --use --name ibmpower-ee-builder
+          docker buildx build \
+            --push \
+            --platform=linux/amd64,linux/arm64 \
+            --tag ghcr.io/kmkamyk/ibmpower-ee:latest \
+            --tag ghcr.io/kmkamyk/ibmpower-ee:${COMMIT_SHA} \
+            ./context
