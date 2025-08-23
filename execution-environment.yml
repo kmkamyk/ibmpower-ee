@@ -12,6 +12,8 @@ dependencies:
     package_pip: ansible-core>=2.15.0rc2,<2.16
   ansible_runner:
     package_pip: ansible-runner
+  cryptography:
+    package_pip: cryptography==39.0.1
   galaxy: |
     ---
     collections:
