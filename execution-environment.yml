@@ -1,4 +1,4 @@
-version: 1
+version: 3
 
 build_arg_defaults:
   EE_BASE_IMAGE: quay.io/centos/centos:stream9
