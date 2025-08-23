@@ -40,6 +40,9 @@ jobs:
       - name: Check context
         run: ls -R context
       
+      - name: Get commit SHA
+        run: echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      
       - name: Build and push EE image
         run: |
           docker buildx create --use --name ibmpower-ee-builder
@@ -47,5 +50,6 @@ jobs:
             --push \
             --platform=linux/amd64,linux/arm64 \
             --tag ghcr.io/kmkamyk/ibmpower-ee:latest \
-            --tag ghcr.io/kmkamyk/ibmpower-ee:${COMMIT_SHA} \
+            --tag ghcr.io/kmkamyk/ibmpower-ee:$COMMIT_SHA \
             ./context
+
