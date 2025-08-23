@@ -34,13 +34,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build and push image with buildx
-      run: |
-        docker buildx create --use --name ibmpower-ee-builder
-        ansible-builder create -f execution-environment.yml
-        docker buildx build \
-          --push \
-          --platform=linux/amd64,linux/arm64 \
-          --tag ghcr.io/kmkamyk/ibmpower-ee:latest \
-          context
+      - name: Build and push image with buildx
+        run: |
+          docker buildx create --use --name ibmpower-ee-builder
+          ansible-builder create -f execution-environment.yml
+          docker buildx build \
+            --push \
+            --platform=linux/amd64,linux/arm64 \
+            --tag ghcr.io/kmkamyk/ibmpower-ee:latest \
+            context
 
