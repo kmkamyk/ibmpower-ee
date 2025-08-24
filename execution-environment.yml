@@ -35,6 +35,7 @@ dependencies:
   system: |
     git-core [platform:rpm]
     python3.11-devel [platform:rpm compile]
+    python3.11-cryptography [platform:rpm compile]
     libcurl-devel [platform:rpm compile]
     krb5-devel [platform:rpm compile]
     krb5-workstation [platform:rpm]
@@ -42,6 +43,7 @@ dependencies:
     subversion [platform:dpkg]
     git-lfs [platform:rpm]
     sshpass [platform:rpm]
+    redhat-rpm-config [platform:rpm compile]
     rsync [platform:rpm]
     epel-release [platform:rpm]
     unzip [platform:rpm]
@@ -49,10 +51,12 @@ dependencies:
     cmake [platform:rpm compile]
     gcc [platform:rpm compile]
     gcc-c++ [platform:rpm compile]
+    gcc-toolset-12 [platform:rpm compile]  # Dodaj tę linię
     make [platform:rpm compile]
     openssl-devel [platform:rpm compile]
     libffi-devel [platform:rpm compile]
-    rust [platform:rpm]
+    redhat-rpm-config [platform:rpm compile]
+    pkg-config [platform:rpm compile]
   python: |
     git+https://github.com/ansible/ansible-sign
     ncclient
@@ -68,9 +72,16 @@ dependencies:
     six
     receptorctl
 additional_build_steps:
+  prepend_builder:
+    - RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - ENV PATH="/root/.cargo/bin:${PATH}"
+    - ENV CC=gcc
   append_base:
     - RUN $PYCMD -m pip install -U pip
+    - ENV CC=gcc
   append_final:
+    - RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - ENV PATH="/root/.cargo/bin:${PATH}"
     - COPY --from=quay.io/ansible/receptor:devel /usr/bin/receptor /usr/bin/receptor
     - RUN mkdir -p /var/run/receptor
     - RUN git lfs install --system
