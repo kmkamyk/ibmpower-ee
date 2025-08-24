@@ -69,6 +69,8 @@ dependencies:
     pyyaml
     six
     receptorctl
+    libxml2-devel
+    libxslt-devel
 additional_build_steps:
   append_base:
     - RUN $PYCMD -m pip install -U pip
