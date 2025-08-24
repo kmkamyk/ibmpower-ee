@@ -54,7 +54,7 @@ dependencies:
     gcc-toolset-12 [platform:rpm compile]  # Dodaj tę linię
     make [platform:rpm compile]
     openssl-devel [platform:rpm compile]
-    rust  [platform:rpm compile]
+    rust [platform:rpm compile]
     libffi-devel [platform:rpm compile]
     libxml2-devel [platform:rpm arch:ppc64le compile]
     libxslt-devel [platform:rpm arch:ppc64le compile]
