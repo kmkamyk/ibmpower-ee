@@ -75,6 +75,5 @@ jobs:
           tags: |
             ghcr.io/kmkamyk/ibmpowertest-ee:latest
             ghcr.io/kmkamyk/ibmpowertest-ee:${{ github.sha }}
-            # Zastąp 'twoj-login-dockerhub' swoim loginem
             ${{ secrets.DOCKERHUB_USERNAME }}/ibmpowertest-ee:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/ibmpowertest-ee:${{ github.sha }}
